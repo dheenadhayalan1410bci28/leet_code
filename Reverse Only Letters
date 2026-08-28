@@ -1,0 +1,23 @@
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
+
+char* reverseOnlyLetters(char* s) {
+    int start = 0;
+    int end = strlen(s) - 1;
+    char* result = strdup(s);
+    while (start < end) {
+        if (isalpha(result[start]) && isalpha(result[end])) {
+            char temp = result[start];
+            result[start] = result[end];
+            result[end] = temp;
+            start++;
+            end--;
+        } else if (!isalpha(result[start])) {
+            start++;
+        } else {
+            end--;
+        }
+    }
+    return result;
+}
