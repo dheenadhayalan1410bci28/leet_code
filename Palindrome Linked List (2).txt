@@ -1,0 +1,23 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+#include <stdbool.h>
+
+bool isPalindrome(struct ListNode* head) {
+    int vals[100000];
+    int i = 0;
+    while (head != NULL) {
+        vals[i++] = head->val;
+        head = head->next;
+    }
+    for (int j = 0; j < i / 2; j++) {
+        if (vals[j] != vals[i - j - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
