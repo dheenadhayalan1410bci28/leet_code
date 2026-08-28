@@ -1,0 +1,4 @@
+int removeElement(int* nums, int numsSize, int val) {
+    for (int *n = nums, *p = n ; numsSize-- || (val = p - nums, 0) ; *n++ != val && (*p++ = n[-1]));
+    return val;
+}
