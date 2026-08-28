@@ -1,0 +1,24 @@
+#include <stdbool.h>
+#include <string.h>
+
+bool ispalindrome(char* s, int l, int r) {
+    while (l < r) {
+        if (s[l] != s[r]) return false;
+        l++;
+        r--;
+    }
+    return true;
+}
+
+bool validPalindrome(char* s) {
+    int l = 0, r = strlen(s) - 1;
+    while (l < r) {
+        if (s[l] == s[r]) {
+            l++;
+            r--;
+        } else {
+            return ispalindrome(s, l, r - 1) || ispalindrome(s, l + 1, r);
+        }
+    }
+    return true;
+}
