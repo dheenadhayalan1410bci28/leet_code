@@ -1,0 +1,62 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+void    fill_tab(int* nums, int *tab, int numsSize)
+{
+    int i;
+
+    i = 0;
+    while (i < numsSize)
+        tab[nums[i++]]++;
+}
+
+int* my_array(int len, int *tab1, int *tab2)
+{
+    int *total;
+    int i;
+    int k;
+    
+    i = 0;
+    k = 0;
+    total = malloc(len * sizeof(int));
+    if (!total)
+        return (NULL);
+    while (i < 1001)
+    {
+        while (tab1[i] && tab2[i])
+        {
+            total[k] = i;
+            tab1[i]--;
+            tab2[i]--;
+            k++;
+        }
+        i++;
+    }
+    return (total);
+}
+
+int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize)
+{
+    int tab1[1001] = {0};
+    int tab2[1001] = {0};
+    int i;
+    int len;
+
+    i = 0;
+    len = 0;
+    fill_tab(nums1, tab1, nums1Size);
+    fill_tab(nums2, tab2, nums2Size);
+    while (i < 1001)
+    {
+        if (tab1[i] && tab2[i])
+        {
+            if (tab1[i] >= tab2[i])
+                len += tab2[i];
+            else
+                len += tab1[i];
+        }
+        i++;
+    }
+    *returnSize = len;
+    return (my_array(len, tab1, tab2));
+}
