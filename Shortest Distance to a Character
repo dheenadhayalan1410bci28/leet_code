@@ -1,0 +1,52 @@
+/**
+ * Note: The returned array must be malloced, assume caller calls free().
+ */
+int* shortestToChar(char* s, char c, int* returnSize) {
+
+    int len=strlen(s);
+    int *a=malloc(sizeof(int)*len);
+int k=0,i,j,res;
+
+    for(i=0;s[i];i++)
+    {
+        int m=len;
+        for(j=i;j>=0;j--)
+        {
+            if(s[j]==c)
+            {
+                if(i-j<m)
+                m=i-j;
+                break;
+            }
+        }
+        for(j=i;j<len;j++)
+        {
+            if(s[j]==c)
+            {
+                if(j-i<m)
+                m=j-i;
+                break;
+            }
+        }
+        a[i]=m;
+    }
+    *returnSize=len;
+    return a;
+    /*for(i=0;s[i];i++)
+    {
+        for(j=i;s[j];j++)
+        {
+            if(s[j]==c)
+            {
+                res=(i<j)?(j-i):(i-j);
+                a[k++]=res;
+                break;
+            }            
+        }
+    }
+    *returnSize=len;
+    return a;*/
+
+
+    
+}
