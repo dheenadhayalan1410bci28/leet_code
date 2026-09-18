@@ -1,0 +1,47 @@
+inline int min(int l, int r) { return l < r ? l : r; }
+
+#define n landStartTimeSize
+#define m waterStartTimeSize
+
+int earliestFinishTime(int* landStartTime, int landStartTimeSize,
+                       int* landDuration, int landDurationSize,
+                       int* waterStartTime, int waterStartTimeSize,
+                       int* waterDuration, int waterDurationSize) {
+    int landMinTime = INT_MAX;
+    int waterMinTime = INT_MAX;
+    int landToWaterMinTime = INT_MAX;
+    int waterToLandMinTime = INT_MAX;
+
+    // computing: landMinTime
+    for (int i = 0; i < n; ++i)
+        landMinTime = min(landMinTime, landStartTime[i] + landDuration[i]);
+
+    // operlapped computing: waterMinTime w/ landToWaterMinTime
+    for (int i = 0; i < m; ++i) {
+        // computing waterMinTime
+        waterMinTime = min(waterMinTime, waterStartTime[i] + waterDuration[i]);
+
+        // computing landToWaterMinTime
+        int currTime = landMinTime;
+        if (currTime < waterStartTime[i])
+            currTime += (waterStartTime[i] - currTime);
+        currTime += waterDuration[i];
+
+        landToWaterMinTime = min(landToWaterMinTime, currTime);
+    }
+
+    // computing: waterToLandMinTime
+    for (int i = 0; i < n; ++i) {
+        int currTime = waterMinTime;
+        if (currTime < landStartTime[i])
+            currTime += (landStartTime[i] - currTime);
+        currTime += landDuration[i];
+
+        waterToLandMinTime = min(waterToLandMinTime, currTime);
+    }
+
+    return min(landToWaterMinTime, waterToLandMinTime);
+}
+
+#undef n
+#undef m
