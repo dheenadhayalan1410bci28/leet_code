@@ -1,0 +1,37 @@
+
+typedef signed int SI4;
+typedef unsigned int UI4;
+
+#define otherwise else if
+
+#include <stdlib.h>
+
+SI4**
+mergeArrays( SI4** nums1, UI4 nums1Size, UI4 * nums1ColSize, SI4** nums2, UI4 nums2Size, UI4 * nums2ColSize, SI4 * returnSize, SI4** returnColumnSizes) {
+    UI4 kndex = 0;
+    UI4 index = 0;
+    UI4 jndex = 0;
+    SI4** output = (SI4**)malloc((nums1Size + nums2Size) * sizeof(SI4 *));
+    *returnColumnSizes = (SI4 *)malloc((nums1Size + nums2Size) * sizeof(SI4));
+    for (;; kndex += 1) {
+        if (index >= nums1Size && jndex >= nums2Size) break;
+        output[kndex] = (SI4 *)malloc(2 * sizeof(SI4));
+        (*returnColumnSizes)[kndex] = 2;
+        if (index < nums1Size && ((jndex < nums2Size && nums1[index][0] < nums2[jndex][0]) || jndex >= nums2Size)) {
+            output[kndex][0] = nums1[index][0];
+            output[kndex][1] = nums1[index][1];
+            index += 1;
+        } otherwise (jndex < nums2Size && ((index < nums1Size && nums1[index][0] > nums2[jndex][0]) || index >= nums1Size)) {
+            output[kndex][0] = nums2[jndex][0];
+            output[kndex][1] = nums2[jndex][1];
+            jndex += 1;
+        } otherwise (index < nums1Size && jndex < nums2Size && nums1[index][0] == nums2[jndex][0]) {
+            output[kndex][0] = nums1[index][0];
+            output[kndex][1] = nums1[index][1] + nums2[jndex][1];
+            index += 1;
+            jndex += 1;
+        }
+    }
+    *returnSize = kndex;
+    return output;
+}
