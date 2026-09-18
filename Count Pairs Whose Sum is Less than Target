@@ -1,0 +1,26 @@
+#include <stdlib.h>
+
+int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+int countPairs(int* nums, int numsSize, int target) {
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    int left = 0;
+    int right = numsSize - 1;
+    int pair = 0;
+
+    while (left < right) {
+        int total = nums[left] + nums[right];
+
+        if (total < target) {
+            pair += (right - left);
+            left++;
+        } else {
+            right--;
+        }
+    }
+
+    return pair;
+}
