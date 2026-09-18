@@ -1,0 +1,34 @@
+#include <ctype.h>
+
+char* reverseByType(char* s) {
+    int n = 0;
+    for(int i=0; s[i] != '\0' ; i++){
+        n++;
+    }
+    char ch[n];
+    char sg[n];
+    int j = 0 ;
+    int k = 0;
+    for(int i=n-1; i>=0; i--){
+       if(islower(s[i])){
+           ch[j++] = s[i];
+       }
+        else{
+            sg[k++] = s[i];
+        }
+    }
+    char* result = (char*)malloc((n+1) * sizeof(char));
+    int cj = 0, ck = 0;
+
+    for(int i=0; i<n; i++){
+        if(islower(s[i])){
+            result[i] = ch[cj++];
+        }
+        else{
+            result[i] = sg[ck++];
+        }
+    }
+    result[n] = '\0'; 
+    return result;
+
+}
