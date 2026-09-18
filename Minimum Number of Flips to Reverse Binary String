@@ -1,0 +1,13 @@
+int
+minimumFlips(uint n)
+{
+        const int leading_zeros = __builtin_clz(n);
+        uint r                  = n;
+        r = ((r & 0xFFFF0000) >> 0x10) | (((long)r & 0x0000FFFF) << 0x10);
+        r = ((r & 0xFF00FF00) >> 0x08) | (((long)r & 0x00FF00FF) << 0x08);
+        r = ((r & 0xF0F0F0F0) >> 0x04) | (((long)r & 0x0F0F0F0F) << 0x04);
+        r = ((r & 0xCCCCCCCC) >> 0x02) | (((long)r & 0x33333333) << 0x02);
+        r = ((r & 0xAAAAAAAA) >> 0x01) | (((long)r & 0x55555555) << 0x01);
+        r >>= leading_zeros;
+        return __builtin_popcount(r ^ n);
+}
