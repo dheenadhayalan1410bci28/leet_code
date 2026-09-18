@@ -1,0 +1,17 @@
+int* diStringMatch(char* s, int* returnSize) {
+    int len = strlen(s);
+    int* arr = malloc(sizeof(int) * (len + 1));
+    int a = 0, b = len;
+
+    for (int i = 0; i < len; i++) {
+        if (s[i] == 'I') {
+            arr[i] = a++;
+        } else {
+            arr[i] = b--;
+        }
+    }
+
+    arr[len] = a;
+    *returnSize = len + 1;
+    return arr;
+}
