@@ -1,0 +1,22 @@
+int incremovableSubarrayCount(int* nums, int n) {
+    if (n == 1) return 1;
+    if (n == 2) return 3;
+
+    int lft = 0, rgt = --n;
+    while (lft < n && nums[lft] < nums[lft + 1]) lft++;
+    while (rgt > 0 && nums[rgt] > nums[rgt - 1]) rgt--;
+    if (lft >= rgt) return (n + 1) * (n + 2) / 2;
+
+    int res = lft + n - rgt + 3;
+    lft = 0;
+    while (lft < rgt && rgt <= n) {
+        if (nums[lft] < nums[rgt]) {
+            res += n - rgt + 1;
+            if (nums[lft] < nums[lft + 1]) lft++;
+            else break;
+        }
+        else rgt++;
+    }
+
+    return res;
+}
