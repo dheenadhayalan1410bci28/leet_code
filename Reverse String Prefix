@@ -1,0 +1,4 @@
+char* reversePrefix(char* s, int k) {    
+    for (char *r = s + k - 1, *b = s ; b < r ; *b ^= *r, *r ^= *b, *b++ ^= *r--);
+    return s;
+}
