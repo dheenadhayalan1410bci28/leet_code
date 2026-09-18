@@ -1,0 +1,19 @@
+char* makeSmallestPalindrome(char* s) {
+    int strLen=strlen(s);
+    int i=0,j=strLen-1;
+    while (i<j){
+        if (s[i]!=s[j]){
+            if (s[i]<s[j]){
+                s[j]=s[i];
+            }
+            else{
+                s[i]=s[j];
+            }
+        }
+        i+=1;
+        j-=1;
+    }
+
+    return s;
+
+}
