@@ -1,0 +1,26 @@
+char* rearrangeString(char* s, char x, char y) {
+    int cx=0,cy=0,n=0;
+    char *S=s;
+    while(*S != '\0'){
+        n++;
+        if(*S == x) cx++;
+        if(*S == y) cy++;
+        S++;
+    }
+    char* res = malloc(sizeof(char)*(n+1));
+    int count=0;
+    for(int i=0;i<n;i++){
+        if(s[i] != x && s[i] != y){
+            res[count] = s[i];
+            count++;
+        }
+    }
+    for(int i=0;i<cy;i++){
+        res[count++] = y;
+    }
+    for(int i=0;i<cx;i++){
+        res[count++] = x;
+    }
+    res[n] = '\0';
+    return res;
+}
