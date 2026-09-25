@@ -1,0 +1,19 @@
+int compare(const void *a, const void *b) {
+    return (*(int *)a - *(int *)b);
+}
+
+int findLHS(int* nums, int numsSize) {
+    qsort(nums, numsSize, sizeof(int), compare);
+
+    int res = 0, l = 0,r = 1;
+    while(r < numsSize) {
+        int diff = nums[r] - nums[l];
+        if(diff == 1) {
+            res = fmax(res, r - l + 1);
+            r++;
+        } else if(diff < 1) r++;
+        else l++;
+    }
+
+    return res;
+}
