@@ -1,0 +1,23 @@
+int longestAlternatingSubarray(int* nums, int numsSize, int threshold)
+{
+  int l = 0, max_len = 0, r;
+  while(l < numsSize)
+  {
+    if(nums[l] % 2 != 0 || nums[l] > threshold)
+    {
+      l++;
+      continue;
+    }
+    r = l + 1;
+    while(r < numsSize && nums[r] <= threshold && nums[r] % 2 != nums[r - 1] % 2)
+    {
+      r++;
+    }
+    if(max_len < r - l)
+    {
+      max_len = r - l;
+    }
+    l = r;
+  }
+  return max_len;
+}
