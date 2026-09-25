@@ -1,0 +1,23 @@
+static inline int max(int a, int b){
+    if(a > b) return a;
+    return b;
+}
+
+int maximumLengthSubstring(char* str) {
+    int arr[26] = {};
+    int max_length = 0;
+    int j = 0;
+    for(int i = 0; str[i] != '\0'; ++i){
+        int idx = str[i] - 'a';
+        arr[idx]++;
+        int *count = &(arr[idx]);
+        while(j < i && *count > 2){
+            arr[str[j] - 'a']--;
+            j++;
+        }
+        int length = i - j + 1;
+        max_length = max(max_length, length);
+    }
+
+    return max_length;
+}
