@@ -1,0 +1,69 @@
+unsigned long long int prod(int* nums, int numsSize);
+unsigned long long int gcd(int* nums, int numsSize);
+unsigned long long int lcm(int* nums, int numsSize);
+unsigned long long int gcdTwoNums(unsigned long long int a, unsigned long long int b);
+
+int maxLength(int* nums, int numsSize) {
+    unsigned long long int longest_len, res_prod, res_gcd, res_lcm;
+    bool flag = false;
+    for(int len = numsSize; len >= 1; len--)
+    {
+        for(int start = 0; start <= numsSize - len; start++)
+        {
+            res_prod = prod(nums + start, len);
+            res_gcd = gcd(nums + start, len);
+            res_lcm = lcm(nums + start, len);
+            if(res_prod == res_gcd * res_lcm)
+            {
+                longest_len = len;
+                flag = true;
+                break;
+            }
+        }
+        if(flag)
+        {
+            break;
+        }
+    }
+    return longest_len;
+}
+
+unsigned long long int prod(int* nums, int numsSize)
+{
+    unsigned long long int res = 1;
+    for(int i = 0; i < numsSize; i++)
+    {
+        res *= nums[i];
+    }
+    return res;
+}
+
+unsigned long long int gcd(int* nums, int numsSize) 
+{
+    unsigned long long int res = nums[0];
+    for(int i = 1; i < numsSize; i++)
+    {
+        res = gcdTwoNums(res, nums[i]);
+    }
+    return res;
+}
+
+unsigned long long int lcm(int* nums, int numsSize)
+{
+    unsigned long long int res = nums[0];
+    for(int i = 1; i < numsSize; i++)
+    {
+        res = (res * nums[i]) / gcdTwoNums(res, nums[i]);
+    }
+    return res;
+}
+
+unsigned long long int gcdTwoNums(unsigned long long int a, unsigned long long int b) {
+    int tmp;
+    while (b != 0) {
+        tmp = b;
+        b = a % b;
+        a = tmp;
+    }
+    return a;
+}
