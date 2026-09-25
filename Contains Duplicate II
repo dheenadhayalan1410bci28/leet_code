@@ -1,0 +1,6 @@
+bool containsNearbyDuplicate(int* nums, int numsSize, int k) {
+    char *m = calloc(1, 2 * (size_t)1e9 + 10), *a = m + (size_t)1e9 + 5;
+    int i = 0, f = 1, *n = nums, sz = numsSize;
+    for (; f && sz-- ; i > k && (a[n[i - k - 1]] = 0), f = !a[n[i]], a[n[i++]] = 1);
+    return free(m), sz + 1;
+}    
