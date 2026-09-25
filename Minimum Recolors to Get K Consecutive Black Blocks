@@ -1,0 +1,10 @@
+int minimumRecolors(char* blocks, int k) {
+    int W=0;
+    for (register int i=0; i<k; i++) W+=blocks[i]=='W';
+    int recolor=W;
+    for (int l=0, r=k; blocks[r]!='\0'; r++, l++){
+        W+=(blocks[r]=='W')-(blocks[l]=='W');
+        recolor=(recolor>W)?W:recolor;
+    }
+    return recolor;  
+}
