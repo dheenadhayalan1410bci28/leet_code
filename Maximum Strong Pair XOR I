@@ -1,0 +1,21 @@
+
+int maximumStrongPairXor(int* nums, int size) {
+    int ans = 0;
+
+    // Iterate through each pair of numbers in the array.
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            // Check if the pair (nums[i], nums[j]) is a strong pair.
+            if (abs(nums[i] - nums[j]) <= (nums[i] < nums[j] ? nums[i] : nums[j])) {
+                // Update the maximum XOR value.
+                ans = ans > (nums[i] ^ nums[j]) ? ans : (nums[i] ^ nums[j]);
+            }
+        }
+    }
+
+    // Return the maximum XOR value of strong pairs.
+    return ans;
+}
+
+
+  
