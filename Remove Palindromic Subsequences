@@ -1,0 +1,10 @@
+int removePalindromeSub(char* s)
+{
+    int i = 0, j = strlen(s) - 1;
+    while(i <= j &&  s[i] == s[j])
+    {
+        i++;
+        j--;
+    }
+    return((j < i)? 1 : 2);
+}
