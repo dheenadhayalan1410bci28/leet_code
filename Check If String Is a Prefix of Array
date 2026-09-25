@@ -1,0 +1,17 @@
+bool isPrefixString(char* s, char** words, int wordsSize) {
+    int k=0;
+    for(int i=0;i<wordsSize;i++)
+    {
+        for(int j=0;words[i][j];j++)
+        {
+            if(words[i][j]!=s[k++])
+            return false;
+        }
+        if(s[k]=='\0')
+        return true;
+    }
+    if(s[k]=='\0')
+    return true;
+    else
+    return false;
+}
