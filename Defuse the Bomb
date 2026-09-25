@@ -1,0 +1,28 @@
+int* decrypt(int* code, int codeSize, int k, int* returnSize) {
+    *returnSize = codeSize;
+    int* ans = calloc(codeSize, sizeof(int));
+    if (k == 0)
+        return ans;
+    int windowSum = 0;
+
+    if (k > 0) {
+        for (int i = 0; i < k; i++)
+            windowSum += code[i];
+
+        for (int i = codeSize - 1; i >= 0; i--) {
+            ans[i] = windowSum;
+            windowSum -= code[(i + k) % codeSize];
+            windowSum += code[i];
+        }
+    } else {
+        for (int i = codeSize - 1; i > codeSize - 1 + k; i--)
+            windowSum += code[i];
+
+        for (int i = 0; i < codeSize; i++) {
+            ans[i] = windowSum;
+            windowSum -= code[(i + k + codeSize) % codeSize];
+            windowSum += code[i];
+        }
+    }
+    return ans;
+}
