@@ -1,0 +1,18 @@
+//C Code
+#include<stdio.h>
+#include<stdlib.h>
+#define Rep(i, n) for(int i = 0; i < n; ++i)
+#define Rep1(i, n) for(int i = 1; i < n; ++i)
+#define FOR(a, b, c) for(int a = b; a < c; ++a)
+int countKConstraintSubstrings(char* s, int k) {
+    int res = 0, n = strlen(s);
+    Rep(i, n){
+        int z = 0, o = 0;
+        FOR(j, i, n){
+            s[j] == '0' ? ++z : ++o;
+            if(z <= k || o <= k)
+                res++;
+        }
+    }
+    return res;
+}
