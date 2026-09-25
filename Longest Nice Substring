@@ -1,0 +1,58 @@
+char* longestNiceSubstring(char* s) {
+    // int lowerNum, upperNum;
+    // int i, j, k, lenS = strlen(s);
+    // int maxLen = 0, st=-1, en=-2;
+    // for(i=0; i<lenS; i++){
+    //     for(j=i; j<lenS; j++){
+    //         lowerNum = 0; upperNum = 0;
+    //         for(k=i; k<=j; k++){
+    //             if(s[k]>='a'){lowerNum |= (1 << (s[k]-'a'));}
+    //             else{upperNum |= (1 << (s[k]-'A'));}
+    //             // printf("%d %d %d\n", i, k, lowerNum^upperNum);
+    //             if(((lowerNum^upperNum)==0) && (maxLen < k-i+1)){maxLen=k-i+1; st=i; en=k;}
+    //         }
+    //     }
+    // }
+    // char* result = (char*) malloc((maxLen+1)*sizeof(char));
+    // i = st;
+    // while(i<=en){result[i-st]=s[i]; i++;}
+    // result[maxLen] = '\0';
+    // return result;
+    int lenS = strlen(s);
+    int** lowerNumMat = (int**) malloc(lenS*sizeof(int*));
+    int** upperNumMat = (int**) malloc(lenS*sizeof(int*));
+    int i, j;
+    for(i=0; i<lenS; i++){
+        lowerNumMat[i] = (int*) malloc(lenS*sizeof(int));
+        upperNumMat[i] = (int*) malloc(lenS*sizeof(int));
+        for(j=0; j<lenS; j++){upperNumMat[i][j]=lowerNumMat[i][j]=0;}
+    }
+    for(i=0; i<lenS; i++){
+        if(s[i]>='a'){lowerNumMat[i][i] = 1 << (s[i]-'a');}
+        else{upperNumMat[i][i] = 1 << (s[i]-'A');}
+        for(j=i+1; j<lenS; j++){
+            if(s[j]>='a'){
+                lowerNumMat[i][j] = lowerNumMat[i][j-1] | (1 << (s[j]-'a'));
+                upperNumMat[i][j] = upperNumMat[i][j-1];
+            }
+            else{
+                lowerNumMat[i][j] = lowerNumMat[i][j-1];
+                upperNumMat[i][j] = upperNumMat[i][j-1] | (1 << (s[j]-'A'));
+            }
+        }
+    }
+    bool flag = true;
+    int maxLen = 0, st = -1, en = -2;
+    for(i=lenS; i>=2 && flag; i--){
+        for(j=0; j+i<=lenS; j++){
+            if((lowerNumMat[j][j+i-1]^upperNumMat[j][j+i-1])==0){maxLen=i; st=j; en=j+i-1; flag=false; break;}
+        }
+    }
+    char* result = (char*) malloc((maxLen+1)*sizeof(char));
+    i = st;
+    while(i<=en){result[i-st]=s[i]; i++;}
+    result[maxLen] = '\0';
+    for(i=0; i<lenS; i++){free(lowerNumMat[i]); free(upperNumMat[i]);}
+    free(lowerNumMat); free(upperNumMat);
+    return result;
+}
