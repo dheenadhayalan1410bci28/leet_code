@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     struct TreeNode *left;
+ *     struct TreeNode *right;
+ * };
+ */
+void flatten(struct TreeNode* root) {
+    if(root==NULL)return;
+    struct TreeNode* *arr=malloc(sizeof(struct TreeNode*)*2000);
+    int top=-1;
+    arr[++top]=root;
+    struct TreeNode* tmp=root;
+    struct TreeNode*curr;
+    while(top!=-1){
+        curr=arr[top--];
+        if(curr->right)arr[++top]=curr->right;
+        if(curr->left)arr[++top]=curr->left;
+        if(tmp!=curr){
+            tmp->left=NULL;
+            tmp->right=curr;
+            tmp=tmp->right;
+        }
+    }
+}
