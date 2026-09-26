@@ -1,0 +1,31 @@
+char* simplifyPath(char* path) {
+    char* answer = malloc(sizeof(char) * 3005);
+    int stack[3005];
+    int top = -1, j = 0, len = 1, n = strlen(path);
+    char temp[3005];
+
+    stack[++top] = 0;
+    answer[0] = '/';
+    for (int i = 1; i <= n; i++) {
+        if (i ==n || path[i] == '/') {
+            temp[j]='\0';
+            if (j == 0 || !strcmp(temp, "."))
+                ;
+            else if (!strcmp(temp, ".."))
+            {
+                if(top>0)
+                    len = stack[--top] + 1;
+            }
+            else {
+                for (int k = 0; k < j;)
+                    answer[len++] = temp[k++];
+                answer[len++] = '/';
+                stack[++top] = len - 1;
+            }
+            j=0;
+        } else
+            temp[j++] = path[i];
+    }
+    answer[len-1 > 1?len-1:1] = '\0';
+    return answer;
+}
