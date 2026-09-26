@@ -1,0 +1,125 @@
+#define HASH_SIZE 20011
+
+typedef struct Node {
+    char* key;
+    char* value;
+    struct Node* next;
+} Node;
+
+unsigned long hashKey(const char* s) {
+    unsigned long hash = 5381;
+
+    while (*s) {
+        hash = ((hash << 5) + hash) + (unsigned char)(*s);
+        s++;
+    }
+
+    return hash % HASH_SIZE;
+}
+
+void insert(Node** table, char* key, char* value) {
+    unsigned long h = hashKey(key);
+
+    Node* node = (Node*)malloc(sizeof(Node));
+
+    node->key = key;
+    node->value = value;
+    node->next = table[h];
+
+    table[h] = node;
+}
+
+char* find(Node** table, const char* key) {
+    unsigned long h = hashKey(key);
+
+    Node* cur = table[h];
+
+    while (cur != NULL) {
+        if (strcmp(cur->key, key) == 0) {
+            return cur->value;
+        }
+
+        cur = cur->next;
+    }
+
+    return NULL;
+}
+
+char* evaluate(
+    char* s,
+    char*** knowledge,
+    int knowledgeSize,
+    int* knowledgeColSize
+) {
+    Node** table = (Node**)calloc(HASH_SIZE, sizeof(Node*));
+
+    for (int i = 0; i < knowledgeSize; i++) {
+        insert(table, knowledge[i][0], knowledge[i][1]);
+    }
+
+    int n = strlen(s);
+
+    int capacity = n + 1;
+
+    for (int i = 0; i < knowledgeSize; i++) {
+        capacity += strlen(knowledge[i][1]);
+    }
+
+    char* ans = (char*)malloc(capacity * sizeof(char));
+
+    int pos = 0;
+    int i = 0;
+
+    while (i < n) {
+        if (s[i] != '(') {
+            ans[pos++] = s[i++];
+            continue;
+        }
+
+        i++;
+
+        int start = i;
+
+        while (s[i] != ')') {
+            i++;
+        }
+
+        int len = i - start;
+
+        char* key = (char*)malloc((len + 1) * sizeof(char));
+
+        memcpy(key, s + start, len);
+        key[len] = '\0';
+
+        char* value = find(table, key);
+
+        if (value != NULL) {
+            int valueLen = strlen(value);
+
+            memcpy(ans + pos, value, valueLen);
+            pos += valueLen;
+        } else {
+            ans[pos++] = '?';
+        }
+
+        free(key);
+
+        i++;
+    }
+
+    ans[pos] = '\0';
+
+    for (int h = 0; h < HASH_SIZE; h++) {
+        Node* cur = table[h];
+
+        while (cur != NULL) {
+            Node* next = cur->next;
+            free(cur);
+            cur = next;
+        }
+    }
+
+    free(table);
+
+    return ans;
+}
