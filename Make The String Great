@@ -1,0 +1,33 @@
+char* makeGood(char* s) {
+    int n = strlen(s);
+
+    char* stack = (char*)malloc((n + 1) * sizeof(char));
+    char* ans = (char*)malloc((n + 1) * sizeof(char));
+
+    int top = -1;
+    int index = 0;
+
+    for (int i = 0; i < n; i++) {
+        char ch = s[i];
+
+        if (top == -1) {
+            stack[++top] = ch;
+        }
+        else if (abs(stack[top] - ch) == 32) {
+            top--;
+        }
+        else {
+            stack[++top] = ch;
+        }
+    }
+
+    for (int i = 0; i <= top; i++) {
+        ans[index++] = stack[i];
+    }
+
+    ans[index] = '\0';
+
+    free(stack);
+
+    return ans;
+}
