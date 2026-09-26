@@ -1,0 +1,12 @@
+char* clearDigits(char* s) {
+    for (int r = 1 ; r ;) {
+        r = 0;
+        for (int i = 0, j = 0 ; s[i] ; i += !!s[i]) {
+            for (; s[i] && s[i] >= 'a' ; i++);
+            for (j = i - 1 ; j >= 0 && s[i] && s[j] >= 'a' && s[i] <= '9' ; r = -1)
+                s[j--] = '_', s[i++] = '_';
+        }
+        for (int k = -1, m = 0 ; r && (s[++k] || (s[m] = 0)) ; s[k] != '_' && (s[m++] = s[k]));
+    }
+    return s;
+}
