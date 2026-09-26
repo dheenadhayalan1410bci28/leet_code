@@ -1,0 +1,26 @@
+int minLength(char * s){
+    int len=strlen(s);//length of the string
+    if(len==1){
+        return 1;
+    }
+    char stack[101]={0};//initializing stack
+    for(int i=-1,j=0;j<len;j++){//i is for top of stack
+        if(i!=-1){
+        if(s[j]=='B'){
+            if(stack[i]=='A'){//checking top of stack
+                stack[i--]=0;//popping from stack
+                continue;
+            }
+        }else if(s[j]=='D'){
+            if(stack[i]=='C'){
+                stack[i--]=0;//popping from stack
+                continue;
+            }
+        }
+        }
+        i++;
+        stack[i]=s[j];//inserting or pushing into stack
+        
+    }
+    return strlen(stack);
+}
