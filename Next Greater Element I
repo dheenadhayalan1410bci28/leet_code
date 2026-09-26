@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    int* data;
+    int top;
+    int capacity;
+} Stack;
+Stack* createStack(int size) {
+    Stack* stack = (Stack*)malloc(sizeof(Stack));
+    stack->data = (int*)malloc(size * sizeof(int));
+    stack->top = -1;
+    stack->capacity = size;
+    return stack;
+}
+
+void push(Stack* stack, int val) {
+    stack->data[++stack->top] = val;
+}
+
+int pop(Stack* stack) {
+    return stack->data[stack->top--];
+}
+
+int peek(Stack* stack) {
+    return stack->data[stack->top];
+}
+
+int isEmpty(Stack* stack) {
+    return stack->top == -1;
+}
+int* nextGreaterElement(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize) {
+    int* nge = (int*)malloc(nums2Size * sizeof(int)); 
+    int* map = (int*)malloc(10001 * sizeof(int));
+
+    Stack* stack = createStack(nums2Size);
+    for (int i = nums2Size - 1; i >= 0; i--) {
+        while (!isEmpty(stack) && peek(stack) <= nums2[i]) {
+            pop(stack);
+        }
+        nge[i] = isEmpty(stack) ? -1 : peek(stack);
+        push(stack, nums2[i]);
+        map[nums2[i]] = nge[i];
+    }
+    int* result = (int*)malloc(nums1Size * sizeof(int));
+    for (int i = 0; i < nums1Size; i++) {
+        result[i] = map[nums1[i]];
+    }
+
+    *returnSize = nums1Size;
+    free(stack->data);
+    free(stack);
+    free(nge);
+    free(map);
+    return result;
+}
