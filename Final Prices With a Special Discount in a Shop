@@ -1,0 +1,16 @@
+int* finalPrices(int* prices, int n, int* returnSize) {
+    int* ans = malloc(sizeof(int) * n);
+    *returnSize = n;
+    int stack[n];
+    int top = -1;
+    for (int i = n - 1; i >= 0; i--) {
+        while (top != -1 && prices[i] < stack[top])
+            top--;
+        if (top == -1)
+            ans[i] = prices[i];
+        else
+            ans[i] = prices[i] - stack[top];
+        stack[++top] = prices[i];
+    }
+    return ans;
+}
