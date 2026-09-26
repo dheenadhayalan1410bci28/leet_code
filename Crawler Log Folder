@@ -1,0 +1,16 @@
+int minOperations(char** logs, int logsSize) {
+    int paths_stack_size = 0;
+    char* paths_stack[logsSize];  // Array to simulate a stack
+
+    for (int i = 0; i < logsSize; i++) {
+        if (strcmp(logs[i], "../") == 0) {
+            if (paths_stack_size > 0) {
+                paths_stack_size--;
+            }
+        } else if (strcmp(logs[i], "./") != 0) {
+            paths_stack[paths_stack_size++] = logs[i];
+        }
+    }
+
+    return paths_stack_size;
+}
