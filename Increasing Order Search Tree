@@ -1,0 +1,28 @@
+struct TreeNode* curr;
+
+void inorder(struct TreeNode* node) {
+    if (node == NULL) {
+        return;
+    }
+
+    inorder(node->left);
+
+    node->left = NULL;
+    curr->right = node;
+    curr = node;
+
+    inorder(node->right);
+}
+
+struct TreeNode* increasingBST(struct TreeNode* root) {
+    struct TreeNode* dummy = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    dummy->val = -1;
+    dummy->left = NULL;
+    dummy->right = NULL;
+
+    curr = dummy;
+
+    inorder(root);
+
+    return dummy->right;
+}
